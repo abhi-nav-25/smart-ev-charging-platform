@@ -1,0 +1,1280 @@
+/* ==========================================================================
+   VoltWay Component Styles
+   Buttons, Badges, Cards, Form Controls, Alerts, Modals, Skeletons
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  line-height: 1;
+  padding: 0.6875rem 1.125rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Button Variants */
+.btn-primary {
+  background-color: var(--color-navy-900);
+  color: var(--color-text-inverse);
+  border-color: var(--color-navy-900);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-navy-800);
+  border-color: var(--color-navy-800);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-electric {
+  background-color: var(--color-electric-green);
+  color: var(--color-navy-950);
+  border-color: var(--color-electric-green);
+  font-weight: 700;
+}
+
+.btn-electric:hover {
+  background-color: var(--color-electric-green-hover);
+  color: #FFFFFF;
+  box-shadow: 0 0 12px var(--color-electric-green-glow);
+}
+
+.btn-secondary {
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-subtle);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-bg-subtle);
+  border-color: var(--color-border-strong);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-navy-900);
+  border-color: var(--color-border-strong);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-bg-muted);
+  border-color: var(--color-navy-900);
+}
+
+.btn-danger {
+  background-color: var(--color-rose-50);
+  color: var(--color-rose-600);
+  border-color: var(--color-rose-border);
+}
+
+.btn-danger:hover {
+  background-color: var(--color-rose-500);
+  color: #FFFFFF;
+  border-color: var(--color-rose-500);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+}
+
+.btn-ghost:hover {
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-primary);
+}
+
+.btn-sm {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.8125rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn-lg {
+  padding: 0.875rem 1.5rem;
+  font-size: 1.05rem;
+  border-radius: var(--radius-md);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Badges & Status Indicators
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-full);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Available Status */
+.badge-available,
+.badge-success {
+  background-color: var(--color-electric-green-subtle);
+  color: var(--color-electric-green-active);
+  border: 1px solid var(--color-electric-green-border);
+}
+.badge-available .badge-dot,
+.badge-success .badge-dot {
+  background-color: var(--color-electric-green);
+}
+
+/* Occupied Status / Neutral */
+.badge-occupied,
+.badge-neutral {
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-subtle);
+}
+.badge-occupied .badge-dot,
+.badge-neutral .badge-dot {
+  background-color: var(--color-slate-400);
+}
+
+/* Maintenance / Warning / Pending */
+.badge-maintenance,
+.badge-pending,
+.badge-warning {
+  background-color: var(--color-amber-50);
+  color: var(--color-amber-600);
+  border: 1px solid var(--color-amber-border);
+}
+.badge-maintenance .badge-dot,
+.badge-pending .badge-dot,
+.badge-warning .badge-dot {
+  background-color: var(--color-amber-500);
+}
+
+/* Danger / Cancelled */
+.badge-cancelled,
+.badge-danger {
+  background-color: var(--color-rose-50);
+  color: var(--color-rose-600);
+  border: 1px solid var(--color-rose-border);
+}
+.badge-cancelled .badge-dot,
+.badge-danger .badge-dot {
+  background-color: var(--color-rose-500);
+}
+
+/* Navy Role Pill */
+.badge-admin {
+  background-color: var(--color-navy-900);
+  color: #FFFFFF;
+  border: 1px solid var(--color-navy-700);
+}
+
+/* --------------------------------------------------------------------------
+   Cards
+   -------------------------------------------------------------------------- */
+.card {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.card:hover {
+  border-color: var(--color-border-strong);
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  border-color: var(--color-electric-green);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Form Inputs & Controls
+   -------------------------------------------------------------------------- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  text-align: left;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.form-label .required {
+  color: var(--color-rose-500);
+  margin-left: 2px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 0.6875rem 0.875rem;
+  font-size: 0.9375rem;
+  background-color: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-electric-green);
+  box-shadow: var(--shadow-focus);
+}
+
+.form-input.has-error {
+  border-color: var(--color-rose-500);
+}
+
+.form-input.has-error:focus {
+  box-shadow: var(--shadow-focus-danger);
+}
+
+.form-error {
+  font-size: 0.8125rem;
+  color: var(--color-rose-600);
+  font-weight: 500;
+}
+
+.form-hint {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Alerts & Banners
+   -------------------------------------------------------------------------- */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  line-height: var(--leading-normal);
+  border: 1px solid transparent;
+  margin-bottom: var(--space-4);
+  text-align: left;
+}
+
+.alert-info {
+  background-color: var(--color-blue-50);
+  border-color: var(--color-blue-border);
+  color: #1E40AF;
+}
+
+.alert-success {
+  background-color: var(--color-electric-green-subtle);
+  border-color: var(--color-electric-green-border);
+  color: #065F46;
+}
+
+.alert-warning {
+  background-color: var(--color-amber-50);
+  border-color: var(--color-amber-border);
+  color: #92400E;
+}
+
+.alert-danger {
+  background-color: var(--color-rose-50);
+  border-color: var(--color-rose-border);
+  color: #991B1B;
+}
+
+.alert-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Spinners & Loaders
+   -------------------------------------------------------------------------- */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  display: inline-block;
+}
+
+.spinner-dark {
+  border: 2px solid var(--color-border-strong);
+  border-top-color: var(--color-navy-900);
+}
+
+.spinner-electric {
+  border: 2px solid var(--color-electric-green-border);
+  border-top-color: var(--color-electric-green);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------------------------------------
+   Modal Backdrop & Dialog
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(11, 19, 43, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-4);
+  animation: fadeIn 150ms ease-out;
+}
+
+.modal-dialog {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  animation: scaleIn 150ms ease-out;
+}
+
+.modal-header {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-body {
+  padding: var(--space-6);
+}
+
+.modal-footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border-subtle);
+  background-color: var(--color-bg-muted);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ==========================================================================
+   Phase 2: Station Discovery, Filters, Cards & Interactive Map
+   ========================================================================== */
+
+/* Split Layout */
+.station-discovery-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: start;
+  padding: var(--space-4) 0 var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .station-discovery-layout {
+    grid-template-columns: 480px 1fr;
+    min-height: calc(100vh - var(--navbar-height) - 120px);
+  }
+
+  .station-map-pane {
+    position: sticky;
+    top: calc(var(--navbar-height) + var(--space-4));
+    height: calc(100vh - var(--navbar-height) - 2rem);
+    min-height: 520px;
+  }
+}
+
+.station-list-pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.station-map-container {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-md);
+  height: 100%;
+  width: 100%;
+  min-height: 420px;
+}
+
+/* Station Card */
+.station-card {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  text-align: left;
+}
+
+.station-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.station-card.selected {
+  border-color: var(--color-electric-green);
+  border-left-color: var(--color-electric-green);
+  background-color: #FAFFFD;
+  box-shadow: 0 4px 14px var(--color-electric-green-glow);
+}
+
+.station-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.station-card-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-navy-900);
+  margin-bottom: 0.25rem;
+}
+
+.station-card-address {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  line-height: 1.35;
+}
+
+.icon-shrink {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.station-card-specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  padding: 0.625rem 0.75rem;
+  background-color: var(--color-bg-canvas);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.spec-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.spec-value {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.spec-icon {
+  color: var(--color-electric-green-active);
+}
+
+.station-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* Filters Bar */
+.station-filters-bar {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  text-align: left;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.6875rem 2.25rem 0.6875rem 2.5rem;
+  font-size: 0.9375rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  transition: all var(--transition-fast);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-electric-green);
+  box-shadow: var(--shadow-focus);
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.refresh-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.spinner-icon {
+  animation: spin 0.75s linear infinite;
+}
+
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.connector-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.filter-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.filter-pill {
+  padding: 0.3rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-pill:hover {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-primary);
+}
+
+.filter-pill.active {
+  background-color: var(--color-navy-900);
+  color: #FFFFFF;
+  border-color: var(--color-navy-900);
+}
+
+.available-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.available-toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox-custom {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  transition: all var(--transition-fast);
+}
+
+.available-toggle input:checked + .checkbox-custom {
+  background-color: var(--color-electric-green);
+  border-color: var(--color-electric-green);
+}
+
+.toggle-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.results-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-electric-green);
+  display: inline-block;
+  box-shadow: 0 0 6px var(--color-electric-green);
+  margin-right: 0.375rem;
+}
+
+.polling-meta {
+  display: flex;
+  align-items: center;
+}
+
+/* Mobile View Switcher */
+.mobile-view-tabs {
+  display: flex;
+  background-color: var(--color-bg-muted);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  margin-bottom: var(--space-4);
+}
+
+.mobile-tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-sm);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mobile-tab-btn.active {
+  background-color: var(--color-bg-surface);
+  color: var(--color-navy-900);
+  box-shadow: var(--shadow-xs);
+}
+
+@media (min-width: 1024px) {
+  .mobile-view-tabs {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Phase 3: Station Detail, Physical Slots & Reservation Form
+   ========================================================================== */
+
+.station-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: start;
+  margin-top: var(--space-6);
+}
+
+@media (min-width: 1024px) {
+  .station-detail-layout {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+}
+
+/* Physical Slots Grid */
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--space-4);
+}
+
+.slot-card {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border-left: 4px solid var(--color-border-subtle);
+  text-align: left;
+}
+
+.slot-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.slot-card.selected {
+  border-color: var(--color-electric-green);
+  border-left-color: var(--color-electric-green);
+  background-color: #FAFFFD;
+  box-shadow: 0 4px 14px var(--color-electric-green-glow);
+}
+
+.slot-card.unavailable {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background-color: var(--color-bg-muted);
+  border-left-color: var(--color-slate-400);
+}
+
+.slot-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.slot-number {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-navy-900);
+}
+
+.slot-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0.5rem 0.625rem;
+  background-color: var(--color-bg-canvas);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.slot-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8125rem;
+}
+
+.detail-label {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.detail-value {
+  font-weight: 700;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.bolt-icon {
+  color: var(--color-electric-green-active);
+}
+
+.slot-card-action {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.selected-indicator {
+  color: var(--color-electric-green-active);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.available-prompt {
+  color: var(--color-navy-600);
+}
+
+.unavailable-note {
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Reservation Form */
+.reservation-form-card {
+  position: sticky;
+  top: calc(var(--navbar-height) + var(--space-4));
+}
+
+.reservation-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.selected-slot-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.625rem;
+  background-color: var(--color-navy-900);
+  color: #FFFFFF;
+  border-radius: var(--radius-full);
+}
+
+.no-slot-prompt {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.duration-pills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+}
+
+.duration-pill {
+  padding: 0.45rem 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--transition-fast);
+}
+
+.duration-pill:hover {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-primary);
+}
+
+.duration-pill.active {
+  background-color: var(--color-navy-900);
+  color: #FFFFFF;
+  border-color: var(--color-navy-900);
+}
+
+.booking-summary-box {
+  background-color: var(--color-bg-canvas);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.summary-value {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.summary-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: var(--space-3);
+  margin-top: var(--space-2);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.total-label {
+  font-weight: 700;
+  color: var(--color-navy-900);
+  font-size: 0.9375rem;
+}
+
+.total-amount {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-navy-900);
+}
+
+.summary-disclaimer {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+  line-height: 1.35;
+}
+
+.auth-gate-box {
+  background-color: var(--color-amber-50);
+  border: 1px solid var(--color-amber-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  text-align: left;
+}
+
+/* Success Card */
+.booking-success-card {
+  text-align: center;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* ==========================================================================
+   Phase 4: Simulated Payment, Driver Reservation Management & Receipts
+   ========================================================================== */
+
+/* Booking Filter Tabs */
+.booking-tabs {
+  display: flex;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: var(--space-2);
+}
+
+.booking-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.booking-tab-btn:hover {
+  color: var(--color-navy-900);
+  background-color: var(--color-bg-muted);
+}
+
+.booking-tab-btn.active {
+  color: var(--color-navy-900);
+  background-color: var(--color-bg-surface);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
+  font-weight: 700;
+}
+
+.tab-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-secondary);
+}
+
+.tab-badge-amber {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-amber-50);
+  color: #92400e;
+  border: 1px solid var(--color-amber-border);
+}
+
+/* Driver Booking Card */
+.driver-booking-card {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.driver-booking-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Simulation Academic Banner */
+.simulation-academic-banner {
+  background-color: var(--color-bg-muted);
+  border: 1px dashed var(--color-navy-900);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: 0.8125rem;
+  color: var(--color-navy-900);
+  line-height: 1.4;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+/* Print Styles for Voucher and Receipt */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .no-print,
+  .navbar,
+  .footer,
+  header,
+  footer {
+    display: none !important;
+  }
+
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .receipt-paper {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+}
+
+/* ==========================================================================
+   Phase 5: Administrator Operational Dashboard & Station Management
+   ========================================================================== */
+
+/* KPI Cards */
+.admin-kpi-card {
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  transition: box-shadow var(--transition-fast);
+}
+
+.admin-kpi-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.kpi-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.kpi-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  margin-bottom: 2px;
+}
+
+.kpi-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-navy-900);
+}
+
+.kpi-subtext {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+/* Admin Data Table */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.admin-table thead {
+  background-color: var(--color-bg-muted);
+  border-bottom: 2px solid var(--color-border-subtle);
+}
+
+.admin-table th {
+  padding: var(--space-3) var(--space-4);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-navy-900);
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+  vertical-align: middle;
+}
+
+.admin-table tbody tr:hover {
+  background-color: var(--color-bg-muted);
+}
+
+/* Footer Navigation Links */
+.footer-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer-link:hover {
+  color: var(--color-electric-green);
+}
+
+
+

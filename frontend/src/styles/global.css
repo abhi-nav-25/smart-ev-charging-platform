@@ -1,0 +1,157 @@
+@import './variables.css';
+
+/* ==========================================================================
+   VoltWay Global Styles & Resets
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-canvas);
+  color: var(--color-text-primary);
+  line-height: var(--leading-normal);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-primary);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: 2.25rem; font-weight: 800; }
+h2 { font-size: 1.75rem; font-weight: 700; }
+h3 { font-size: 1.35rem; font-weight: 600; }
+h4 { font-size: 1.125rem; font-weight: 600; }
+
+p {
+  color: var(--color-text-secondary);
+  line-height: var(--leading-normal);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+}
+
+/* Focus Visibility & Accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-electric-green);
+  outline-offset: 2px;
+}
+
+/* Common Layout Containers */
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+}
+
+.container-narrow {
+  max-width: var(--container-narrow-width);
+}
+
+/* App Shell Wrapper */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1 0 auto;
+}
+
+/* Utility Helpers */
+.text-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-success {
+  color: var(--color-electric-green-hover);
+}
+
+.text-warning {
+  color: var(--color-amber-600);
+}
+
+.text-danger {
+  color: var(--color-rose-600);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
