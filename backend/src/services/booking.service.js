@@ -54,18 +54,13 @@ export const bookingService = {
       throw err;
     }
 
-    // 3. Compute amount if not provided
-    let calculatedAmount = amount;
-    if (!calculatedAmount || calculatedAmount <= 0) {
-      const durationHours = Math.max(
-        0.5,
-        (new Date(endTime) - new Date(startTime)) / (1000 * 60 * 60)
-      );
-      // Rough estimation: hours * 25 kWh average consumption * price_per_kwh
-      calculatedAmount = Number(
-        (durationHours * 25 * Number(station.price_per_kwh)).toFixed(2)
-      );
-    }
+    // 3. Compute authoritative amount server-side based on station rate and reservation duration
+    // Prevents price parameter tampering (CWE-472)
+    const durationHours = (new Date(endTime) - new Date(startTime)) / (1000 * 60 * 60);
+    // Estimated consumption rate: 25 kWh average consumption * price_per_kwh
+    const calculatedAmount = Number(
+      (durationHours * 25 * Number(station.price_per_kwh)).toFixed(2)
+    );
 
     // 4. Free stale pending bookings older than 15 minutes before reserving
     try {
@@ -275,10 +270,10 @@ export const bookingService = {
   async cancelBooking(bookingId, userId, isAdmin = false) {
     const db = supabaseAdmin || supabase;
 
-    // First fetch booking to check ownership and state
+    // First fetch booking to check ownership, state, and schedule
     let checkQuery = db
       .from('bookings')
-      .select('id, user_id, status')
+      .select('id, user_id, status, start_time, end_time')
       .eq('id', bookingId);
 
     if (!isAdmin) {
@@ -305,15 +300,42 @@ export const bookingService = {
       throw err;
     }
 
-    // Update status to 'cancelled' (releases slot constraint)
-    const { data: updated, error: updateError } = await db
+    // Do not allow regular users to cancel historical bookings that have already elapsed
+    if (!isAdmin && new Date(booking.end_time) <= new Date()) {
+      const err = new Error('Cannot cancel a booking whose time window has already ended');
+      err.statusCode = 400;
+      throw err;
+    }
+
+    // Update status to 'cancelled' (releases slot constraint) with ownership check
+    let updateQuery = db
       .from('bookings')
       .update({ status: 'cancelled' })
-      .eq('id', bookingId)
+      .eq('id', bookingId);
+
+    if (!isAdmin) {
+      updateQuery = updateQuery.eq('user_id', userId);
+    }
+
+    const { data: updated, error: updateError } = await updateQuery
       .select()
       .single();
 
     if (updateError) throw updateError;
+
+    // If a confirmed booking with an active payment is cancelled, mark the payment as refunded
+    if (booking.status === 'confirmed') {
+      try {
+        await db
+          .from('payments')
+          .update({ payment_status: 'refunded' })
+          .eq('booking_id', bookingId)
+          .eq('payment_status', 'success');
+      } catch (refundErr) {
+        console.warn('[CANCEL_REFUND_WARN]', refundErr.message);
+      }
+    }
+
     return updated;
   }
 };

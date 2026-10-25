@@ -168,7 +168,7 @@ BEGIN
         full_name = COALESCE(EXCLUDED.full_name, public.profiles.full_name);
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, pg_temp;
 
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
@@ -191,7 +191,7 @@ BEGIN
     GET DIAGNOSTICS v_expired_count = ROW_COUNT;
     RETURN v_expired_count;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, pg_temp;
 
 -- ----------------------------------------------------------------------------
 -- ATOMIC BOOKING FUNCTION (Concurrency Safe with Transactional Slot Lock)
@@ -215,6 +215,12 @@ DECLARE
     v_conflict_count INTEGER;
     v_new_booking_id UUID;
 BEGIN
+    -- 0. Verify caller identity if invoked directly with Supabase auth token
+    IF auth.uid() IS NOT NULL AND auth.uid() <> p_user_id AND NOT public.is_admin() THEN
+        RETURN QUERY SELECT NULL::UUID, 'ERROR'::TEXT, 'Unauthorized: Cannot create booking for another user'::TEXT;
+        RETURN;
+    END IF;
+
     -- 1. Free any stale pending bookings older than 15 minutes before checking conflicts
     PERFORM public.cleanup_expired_pending_bookings();
 
@@ -269,7 +275,7 @@ BEGIN
 
     RETURN QUERY SELECT v_new_booking_id, 'SUCCESS'::TEXT, 'Booking reserved successfully. Please complete simulated payment within 15 minutes.'::TEXT;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = public, pg_temp;
 
 -- ----------------------------------------------------------------------------
 -- SECURITY DEFINER HELPER: IS CURRENT USER AN ADMIN?
@@ -283,7 +289,7 @@ BEGIN
         WHERE id = auth.uid() AND role = 'admin'
     );
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER STABLE;
+$$ LANGUAGE plpgsql SECURITY DEFINER STABLE SET search_path = public, pg_temp;
 
 -- ----------------------------------------------------------------------------
 -- ROW LEVEL SECURITY (RLS) POLICIES
@@ -309,7 +315,7 @@ CREATE POLICY "profiles_update_own" ON public.profiles
     FOR UPDATE USING (auth.uid() = id OR public.is_admin())
     WITH CHECK (
         public.is_admin() OR
-        (auth.uid() = id AND role = (SELECT role FROM public.profiles WHERE id = auth.uid()))
+        (auth.uid() = id AND role = 'user')
     );
 
 -- 2. STATIONS POLICIES
@@ -348,7 +354,11 @@ CREATE POLICY "bookings_insert_own" ON public.bookings
 -- Users can cancel their own bookings; admins can modify any booking
 DROP POLICY IF EXISTS "bookings_update_own_or_admin" ON public.bookings;
 CREATE POLICY "bookings_update_own_or_admin" ON public.bookings
-    FOR UPDATE USING (auth.uid() = user_id OR public.is_admin());
+    FOR UPDATE USING (auth.uid() = user_id OR public.is_admin())
+    WITH CHECK (
+        public.is_admin() OR
+        (auth.uid() = user_id AND status = 'cancelled')
+    );
 
 -- 5. PAYMENTS POLICIES
 -- Users can view their own payments; admins can view all payments
