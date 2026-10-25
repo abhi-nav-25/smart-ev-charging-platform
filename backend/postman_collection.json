@@ -1,0 +1,438 @@
+{
+  "info": {
+    "name": "Smart EV Charging Platform API",
+    "_postman_id": "bf63532a-f44d-462b-a269-e4fdd86a2a10",
+    "description": "Postman API Collection for Cloud-Based Smart EV Charging and Reservation Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "userToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "stationId",
+      "value": "11111111-1111-1111-1111-111111111111",
+      "type": "string"
+    },
+    {
+      "key": "slotId",
+      "value": "a1111111-1111-1111-1111-111111111111",
+      "type": "string"
+    },
+    {
+      "key": "bookingId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health & Status",
+      "item": [
+        {
+          "name": "Health Check (Monitoring)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health"]
+            },
+            "description": "Returns uptime, server health, and ISO timestamp for EC2 health check and uptime monitoring."
+          }
+        },
+        {
+          "name": "Root Welcome",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Authentication",
+      "item": [
+        {
+          "name": "Register New User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"driver@example.com\",\n  \"password\": \"evcharging123\",\n  \"full_name\": \"Alex Green\",\n  \"phone\": \"+91 9876543210\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success && res.data && res.data.access_token) {",
+                  "    pm.collectionVariables.set('userToken', res.data.access_token);",
+                  "    console.log('Saved userToken to collection variables');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"driver@example.com\",\n  \"password\": \"evcharging123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Authenticated Profile (Me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Charging Stations",
+      "item": [
+        {
+          "name": "List All Stations (Live Available Slots)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/stations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "stations"]
+            }
+          }
+        },
+        {
+          "name": "Search Stations by Name or Location",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/stations?search=Airport",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "stations"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Airport"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Station Details by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/stations/{{stationId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "stations", "{{stationId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Booking Management",
+      "item": [
+        {
+          "name": "Create Slot Booking",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success && res.data && res.data.id) {",
+                  "    pm.collectionVariables.set('bookingId', res.data.id);",
+                  "    console.log('Saved bookingId to collection variables:', res.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"station_id\": \"11111111-1111-1111-1111-111111111111\",\n  \"slot_id\": \"a1111111-1111-1111-1111-111111111111\",\n  \"booking_date\": \"2026-10-25\",\n  \"start_time\": \"2026-10-25T16:00:00Z\",\n  \"end_time\": \"2026-10-25T17:30:00Z\",\n  \"amount\": 350.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "Get My Bookings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings/my",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings", "my"]
+            }
+          }
+        },
+        {
+          "name": "Get Booking by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings/{{bookingId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings", "{{bookingId}}"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Booking (Releases Slot)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings/{{bookingId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings", "{{bookingId}}", "cancel"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Simulated Payment",
+      "item": [
+        {
+          "name": "Simulate Payment Success (Confirms Booking)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"booking_id\": \"{{bookingId}}\",\n  \"status\": \"success\",\n  \"payment_method\": \"simulated_card\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/simulate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "simulate"]
+            }
+          }
+        },
+        {
+          "name": "Simulate Payment Failure (Keeps Pending)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"booking_id\": \"{{bookingId}}\",\n  \"status\": \"failed\",\n  \"payment_method\": \"simulated_upi\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/simulate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "simulate"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Administrator APIs",
+      "item": [
+        {
+          "name": "Get Admin Operational Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Get All System Bookings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "Create Charging Station",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Outer Ring Road High Speed Station\",\n  \"address\": \"Bellandur Junction, Bangalore\",\n  \"latitude\": 12.9260,\n  \"longitude\": 77.6762,\n  \"connector_type\": \"CCS2 Ultra-Fast\",\n  \"price_per_kwh\": 19.50,\n  \"total_slots\": 4,\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/stations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "stations"]
+            }
+          }
+        },
+        {
+          "name": "Update Station Details",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price_per_kwh\": 21.00,\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/stations/{{stationId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "stations", "{{stationId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
