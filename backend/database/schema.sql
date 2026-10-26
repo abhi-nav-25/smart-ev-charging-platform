@@ -370,3 +370,15 @@ CREATE POLICY "payments_select_own_or_admin" ON public.payments
 DROP POLICY IF EXISTS "payments_insert_own" ON public.payments;
 CREATE POLICY "payments_insert_own" ON public.payments
     FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- ----------------------------------------------------------------------------
+-- TABLE PRIVILEGES / PERMISSIONS
+-- Grant explicit table permissions to service_role (and authenticated)
+-- ----------------------------------------------------------------------------
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.profiles TO service_role;
+GRANT SELECT, UPDATE ON TABLE public.profiles TO authenticated;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.payments TO service_role;
+GRANT SELECT, INSERT ON TABLE public.payments TO authenticated;
+
+

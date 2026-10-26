@@ -36,6 +36,7 @@
   /* Semantic Alerts & State Indicators */
   --color-amber-500: #F59E0B;
   --color-amber-600: #D97706;
+  --color-amber-700: #B45309;
   --color-amber-50: #FFFBEB;
   --color-amber-border: #FDE68A;
 
@@ -43,6 +44,14 @@
   --color-rose-600: #DC2626;
   --color-rose-50: #FEF2F2;
   --color-rose-border: #FECACA;
+
+  /* Crimson Brand Semantic Tokens */
+  --color-crimson: #EF4444;
+  --color-crimson-hover: #DC2626;
+  --color-crimson-subtle: #FEF2F2;
+  --color-crimson-border: #FECACA;
+
+  --color-slate-400: #94A3B8;
 
   --color-blue-500: #3B82F6;
   --color-blue-50: #EFF6FF;

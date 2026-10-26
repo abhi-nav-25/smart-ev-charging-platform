@@ -227,7 +227,7 @@ export const PaymentSimulationModal = ({
                   Simulation Failed
                 </h3>
                 <p className="text-secondary" style={{ fontSize: '0.875rem', marginBottom: '1.25rem' }}>
-                  {simulationResult.message} The backend has marked the booking as cancelled and released the charging bay.
+                  {simulationResult.message}
                 </p>
                 <button
                   type="button"

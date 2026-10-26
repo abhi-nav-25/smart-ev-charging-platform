@@ -11,7 +11,7 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const redirectUrl = new URLSearchParams(location.search).get('redirect') || '/stations';
+  const redirectParam = new URLSearchParams(location.search).get('redirect');
 
   const [formData, setFormData] = useState({
     email: '',
@@ -49,7 +49,8 @@ export const LoginPage = () => {
     setIsSubmitting(false);
 
     if (result.success) {
-      navigate(redirectUrl, { replace: true });
+      const destination = redirectParam || (result.user?.role === 'admin' ? '/admin' : '/stations');
+      navigate(destination, { replace: true });
     } else {
       setServerError(result.error);
     }

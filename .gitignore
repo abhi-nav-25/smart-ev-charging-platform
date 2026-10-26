@@ -3,11 +3,31 @@ node_modules/
 
 # Secrets and environment configurations
 .env
+.env.*
 .env.local
 .env.development
 .env.test
 .env.production
 !.env.example
+!backend/.env.example
+!frontend/.env.example
+
+# Private keys, certificates and credentials
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+*.id_rsa
+*.id_ed25519
+
+# Build outputs and local caches
+dist/
+dist-ssr/
+build/
+.cache/
+.parcel-cache/
 
 # Logs
 logs/

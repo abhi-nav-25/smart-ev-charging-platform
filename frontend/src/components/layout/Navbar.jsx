@@ -360,7 +360,7 @@ export const Navbar = () => {
                   <span style={{ fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.8)' }}>
                     Signed in as <strong>{user?.email}</strong>
                   </span>
-                  <Badge status={isAdmin ? 'admin' : 'neutral'} label={user?.role} showDot={false} />
+                  <Badge status={isAdmin ? 'admin' : 'neutral'} label={isAdmin ? 'ADMIN' : 'DRIVER'} showDot={false} />
                 </div>
                 <button
                   type="button"

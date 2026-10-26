@@ -39,7 +39,7 @@ export const simulatePayment = async (req, res, next) => {
     const isSuccess = normalizedStatus === 'success';
     const message = isSuccess
       ? 'Payment simulated successfully. Booking has been confirmed.'
-      : 'Payment simulation resulted in failure. Booking remains pending.';
+      : 'Payment simulation resulted in failure. Reservation has been cancelled and the slot released.';
 
     return sendSuccess(res, result, message, isSuccess ? 200 : 402);
   } catch (error) {

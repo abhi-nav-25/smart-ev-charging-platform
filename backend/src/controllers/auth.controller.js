@@ -117,11 +117,18 @@ export const login = async (req, res, next) => {
 
     // Fetch user profile from database to get the authorized role
     const dbClient = supabaseAdmin || supabase;
-    const { data: profile } = await dbClient
+    const { data: profile, error: profileError } = await dbClient
       .from('profiles')
       .select('id, email, full_name, phone, role')
       .eq('id', user.id)
       .single();
+
+    if (profileError && profileError.code !== 'PGRST116') {
+      console.error('[AUTH_LOGIN_PROFILE_ERROR]', profileError.message || profileError);
+      return sendError(res, 'Database error retrieving user authorization profile.', 500);
+    }
+
+    const assignedRole = (profile && profile.role === 'admin') ? 'admin' : 'user';
 
     return sendSuccess(
       res,
@@ -133,7 +140,7 @@ export const login = async (req, res, next) => {
         user: {
           id: user.id,
           email: user.email,
-          role: profile?.role || 'user',
+          role: assignedRole,
           profile: profile || null
         }
       },
@@ -158,7 +165,22 @@ export const getMe = async (req, res, next) => {
       .single();
 
     if (error) {
-      return sendError(res, 'User profile not found.', 404);
+      if (error.code === 'PGRST116') {
+        // Return minimal profile with default driver role if row is missing in table
+        return sendSuccess(
+          res,
+          {
+            id: req.user.id,
+            email: req.user.email,
+            full_name: req.user.email?.split('@')[0] || 'Driver',
+            role: 'user',
+            phone: null
+          },
+          'Default driver profile attached.'
+        );
+      }
+      console.error('[AUTH_GETME_ERROR]', error.message || error);
+      return sendError(res, 'Failed to retrieve user profile.', 500);
     }
 
     return sendSuccess(res, profile, 'Authenticated user profile retrieved.');

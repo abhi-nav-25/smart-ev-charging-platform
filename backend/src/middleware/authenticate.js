@@ -41,15 +41,27 @@ export const authenticate = async (req, res, next) => {
       .eq('id', user.id)
       .single();
 
-    if (profileError && profileError.code !== 'PGRST116') {
-      console.error('[AUTH_PROFILE_ERROR]', profileError);
+    if (profileError) {
+      if (profileError.code === 'PGRST116') {
+        // Explicitly handle missing profile: default safely to standard 'user' role
+        req.user = {
+          id: user.id,
+          email: user.email,
+          role: 'user',
+          profile: null
+        };
+        return next();
+      }
+      // Actual database error: log safely without exposing secrets and return 500
+      console.error('[AUTH_PROFILE_ERROR]', profileError.message || profileError);
+      return sendError(res, 'Database error retrieving user authorization.', 500);
     }
 
-    // Attach user information to request
+    // Attach verified user information to request
     req.user = {
       id: user.id,
       email: user.email,
-      role: profile?.role || 'user',
+      role: profile?.role === 'admin' ? 'admin' : 'user',
       profile: profile || null
     };
 

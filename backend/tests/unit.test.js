@@ -4,6 +4,7 @@ import { requireAdmin } from '../src/middleware/requireAdmin.js';
 import { authenticate } from '../src/middleware/authenticate.js';
 import { errorHandler, notFoundHandler } from '../src/middleware/errorHandler.js';
 import { sendSuccess, sendError } from '../src/utils/response.js';
+import { simulatePayment } from '../src/controllers/payment.controller.js';
 
 test('Unit 1: requireAdmin middleware blocks non-admin user with 403', () => {
   const req = { user: { id: 'u1', role: 'user' } };
@@ -217,3 +218,77 @@ test('Unit 9: Standard response format helper (sendSuccess and sendError)', () =
   assert.equal(errorBody.message, 'Failed validation');
   assert.deepEqual(errorBody.errors, { field: 'email' });
 });
+
+test('Unit 10: requireAdmin blocks non-admin roles and malformed users', () => {
+  const invalidUsers = [
+    { id: '1', role: 'driver' },
+    { id: '2', role: 'operator' },
+    { id: '3', role: null },
+    { id: '4', role: undefined },
+    { id: '5' }
+  ];
+
+  for (const user of invalidUsers) {
+    let statusCode = null;
+    let nextCalled = false;
+    const res = {
+      status(c) { statusCode = c; return this; },
+      json() { return this; }
+    };
+    requireAdmin({ user }, res, () => { nextCalled = true; });
+    assert.equal(nextCalled, false, `Expected user with role ${user.role} to be blocked`);
+    assert.equal(statusCode, 403);
+  }
+});
+
+test('Unit 11: authenticate middleware rejects non-existent tokens with 401', async () => {
+  const req = { headers: { authorization: 'Bearer completely-invalid-fake-jwt-token' } };
+  let statusCode = null;
+  let responsePayload = null;
+  const res = {
+    status(c) { statusCode = c; return this; },
+    json(p) { responsePayload = p; return this; }
+  };
+  await authenticate(req, res, () => {});
+  assert.equal(statusCode, 401);
+  assert.equal(responsePayload.success, false);
+});
+
+test('Unit 12: simulatePayment controller validates input fields', async () => {
+  const createMockRes = () => {
+    return {
+      statusCode: null,
+      body: null,
+      status(code) {
+        this.statusCode = code;
+        return this;
+      },
+      json(payload) {
+        this.body = payload;
+        return this;
+      }
+    };
+  };
+
+  // 1. Missing booking_id
+  const res1 = createMockRes();
+  await simulatePayment({ body: {}, user: { id: 'u1' } }, res1);
+  assert.equal(res1.statusCode, 400);
+  assert.match(res1.body.message, /Missing required payment field/i);
+
+  // 2. Invalid UUID
+  const res2 = createMockRes();
+  await simulatePayment({ body: { booking_id: 'bad-uuid' }, user: { id: 'u1' } }, res2);
+  assert.equal(res2.statusCode, 400);
+  assert.match(res2.body.message, /Invalid booking_id format/i);
+
+  // 3. Invalid status
+  const res3 = createMockRes();
+  await simulatePayment(
+    { body: { booking_id: '11111111-1111-1111-1111-111111111111', status: 'unknown' }, user: { id: 'u1' } },
+    res3
+  );
+  assert.equal(res3.statusCode, 400);
+  assert.match(res3.body.message, /must be either 'success' or 'failed'/i);
+});
+
